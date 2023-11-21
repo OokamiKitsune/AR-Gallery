@@ -1,0 +1,131 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.warning {
+  color: red;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 columns */
+  grid-gap: 20px;
+  /* Gap between grid items */
+}
+
+.thumbnail-card {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  flex-direction: column;
+}
+
+.thumbnail-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  /* Maintain aspect ratio and cover the entire area */
+}
+
+.social-links {
+  position: absolute;
+  bottom: 2;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  /* Center social links horizontally */
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Background for social links */
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  /* Center social links horizontally */
+  background-color: rgba(255, 255, 255, 0.9);
+  /* Background for social links */
+  padding: 8px;
+}
+
+/* Style social media icons as needed */
+.social-links img {
+  width: 24px;
+  height: 24px;
+  /* Additional styling for social media icons */
+  justify-content: center;
+}
+
+.info {
+  padding: 8px;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.edit-buttons {
+  display: flex;
+  justify-content: space-between;
+  /* Space out the buttons */
+  padding: 8px;
+}
+
+.edit-buttons button {
+  flex-shrink: 0;
+  /* Prevent buttons from shrinking */
+}
+
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 600ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 1em #ffffffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #000000aa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Define styles for mobile devices */
+@media (max-width: 300px) {
+  /* Your mobile-specific styles */
+}
+
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
