@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'; // Import useHistory
 
 const Gallery = () => {
     const navigate = useNavigate(); // Create history object
-
+    // Demo code for adding a new art piece
     const artPieces = [
         {
             id: 1,
@@ -23,7 +23,7 @@ const Gallery = () => {
             author: 'Author 2',
             website: 'https://www.google.com',
             imageUrl: '../public/tenor.gif',
-            arEnabled: false,
+            arEnabled: true,
         },
         {
             id: 2,

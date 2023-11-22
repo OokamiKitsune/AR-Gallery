@@ -1,12 +1,12 @@
 import imnotartlogo from '../assets/imnotartlogo.png'
 import '../App.css'
 import { useState } from 'react';
-import { env }  from 'process';
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = env.DATABASE_URL
-const supabaseKey = env.PUBLIC_API_KEY
-// Create a single supabase client for interacting with your database
-const supabase = createClient(supabaseUrl, supabaseKey)
+// import { env }  from 'process';
+// import { createClient } from '@supabase/supabase-js'
+// const supabaseUrl = env.DATABASE_URL
+// const supabaseKey = env.PUBLIC_API_KEY
+// // Create a single supabase client for interacting with your database
+// const supabase = createClient(supabaseUrl, supabaseKey)
 
 
 const AdminPanel = () => {
@@ -16,18 +16,17 @@ const AdminPanel = () => {
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
-        // Add login logic here...
+        // Add login logic
         if (username === 'admin' && password === 'password') {
             setLoggedIn(true);
-            setUsername('');
-            setPassword('');
+
         } else {
             alert('Invalid username or password');
             setUsername('');
             setPassword('');
         }
     }
-
+    // Demo code for adding a new art piece
     const artPieces = [
         {
             id: 1,
