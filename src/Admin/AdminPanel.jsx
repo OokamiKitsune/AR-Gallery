@@ -1,6 +1,7 @@
 import imnotartlogo from '../assets/imnotartlogo.png'
 import '../App.css'
 import { useState } from 'react';
+import Upload from '../components/Upload';
 // import { env }  from 'process';
 // import { createClient } from '@supabase/supabase-js'
 // const supabaseUrl = env.DATABASE_URL
@@ -19,6 +20,8 @@ const AdminPanel = () => {
         // Add login logic
         if (username === 'admin' && password === 'password') {
             setLoggedIn(true);
+            setUsername('');
+            setPassword('');
 
         } else {
             alert('Invalid username or password');
@@ -50,25 +53,36 @@ const AdminPanel = () => {
     return (
         <>
             <div>
+
                 <img src={imnotartlogo} className="logo" alt="imnotArtLogo" />
             </div>
             {!loggedIn ? (
                 <div>
                     <h2>AR Gallery Login</h2>
+                    <div className="login-container">
                     <input
                         type="text"
+                        id="username"
+                        required="true"
                         placeholder="Username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
+                    
+
+                    </div>
                     <br>
                     </br>
+                    <div className="login-container">
                     <input
                         type="password"
                         placeholder="Password"
+                        id="password"
+                        required="true"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    </div>
                     <br>
                     </br>
                     <br>
@@ -79,7 +93,6 @@ const AdminPanel = () => {
                 <div>
                     <button onClick={() => setLoggedIn(false)}>Logout</button>
                     <h2>AR Gallery Management</h2>
-                    
             <div className="card">
             <button onClick={() => addNewPiece()}>Upload New</button>
                 {artPieces.map((piece) => (

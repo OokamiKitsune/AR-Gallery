@@ -551,6 +551,11 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@transloadit/prettier-bytes@0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@transloadit/prettier-bytes/-/prettier-bytes-0.0.9.tgz#8d3146f75fd9d3c544cb63ec7dbdeb6670d3e2d7"
+  integrity sha512-pCvdmea/F3Tn4hAtHqNXmjcixSaroJJ+L3STXlYJdir1g1m2mRQpWbN8a4SvgQtaw2930Ckhdx8qXdXBFMKbAA==
+
 "@types/babel__core@^7.20.3":
   version "7.20.4"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.4.tgz#26a87347e6c6f753b3668398e34496d6d9ac6ac0"
@@ -638,6 +643,41 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
+
+"@uppy/core@^3.7.1":
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/@uppy/core/-/core-3.7.1.tgz#4265616452c9be1e1eda52a65d22c770849079b1"
+  integrity sha512-P8JoDbDYyJ5ZX35+IfrDj2WupKvfEpYwoMgyjutaLhaT/+hmHoTivZpJV256eaZahJMTYrQlZmGfXy1LRByV3A==
+  dependencies:
+    "@transloadit/prettier-bytes" "0.0.9"
+    "@uppy/store-default" "^3.0.5"
+    "@uppy/utils" "^5.6.0"
+    lodash "^4.17.21"
+    mime-match "^1.0.2"
+    namespace-emitter "^2.0.1"
+    nanoid "^4.0.0"
+    preact "^10.5.13"
+
+"@uppy/drag-drop@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@uppy/drag-drop/-/drag-drop-3.0.3.tgz#9cd67d683d30f8d4ddebb41ebc4bb941278e5df3"
+  integrity sha512-0bCgQKxg+9vkxQipTgrX9yQIuK9a0hZrkipm1+Ynq6jTeig49b7II1bWYnoKdiYhi6nRE4UnDJf4z09yCAU7rA==
+  dependencies:
+    "@uppy/utils" "^5.4.3"
+    preact "^10.5.13"
+
+"@uppy/store-default@^3.0.5":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@uppy/store-default/-/store-default-3.1.0.tgz#ff1a50cc9ec238ef391fe0da27a9a60860ebea5c"
+  integrity sha512-I0Ouxom5wPb/M4SQourDKq6nQXZobNwp6x91zdkDhGtOA9GgDKJ/eYDthFRV+lj9NKAjZWjbOhV+DO9rVnEUeA==
+
+"@uppy/utils@^5.4.3", "@uppy/utils@^5.6.0":
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/@uppy/utils/-/utils-5.6.0.tgz#07dd996353bd49738b79d8c9e232edf7cabbc07e"
+  integrity sha512-Blr6Po6a49niTugSzuguNtH9M1wSU4vdRnaGBsScv+JjcslzG3OkMmfnnhesj1ZIVyxMdVDjyPGXoqh4Wm2Dzg==
+  dependencies:
+    lodash "^4.17.21"
+    preact "^10.5.13"
 
 "@vitejs/plugin-react@^4.0.3":
   version "4.1.1"
@@ -2088,6 +2128,11 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
@@ -2123,6 +2168,13 @@ mime-db@1.52.0:
   version "1.52.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.52.0.tgz#bbabcdc02859f4987301c856e3387ce5ec43bf70"
   integrity sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==
+
+mime-match@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/mime-match/-/mime-match-1.0.2.tgz#3f87c31e9af1a5fd485fb9db134428b23bbb7ba8"
+  integrity sha512-VXp/ugGDVh3eCLOBCiHZMYWQaTNUHv2IJrut+yXA6+JbLPXHglHwfS/5A5L0ll+jkCY7fIzRJcH6OIunF+c6Cg==
+  dependencies:
+    wildcard "^1.1.0"
 
 mime-types@^2.1.12:
   version "2.1.35"
@@ -2195,10 +2247,20 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+namespace-emitter@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/namespace-emitter/-/namespace-emitter-2.0.1.tgz#978d51361c61313b4e6b8cf6f3853d08dfa2b17c"
+  integrity sha512-N/sMKHniSDJBjfrkbS/tpkPj4RAbvW3mr8UAzvlMHyun93XEm83IAvhWtJVHo+RHn/oO8Job5YN4b+wRjSVp5g==
+
 nanoid@^3.3.6:
   version "3.3.7"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.7.tgz#d0c301a691bc8d54efa0a2226ccf3fe2fd656bd8"
   integrity sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==
+
+nanoid@^4.0.0:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-4.0.2.tgz#140b3c5003959adbebf521c170f282c5e7f9fb9e"
+  integrity sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -2437,6 +2499,11 @@ postcss@^8.4.27:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+preact@^10.5.13:
+  version "10.19.2"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.19.2.tgz#841797620dba649aaac1f8be42d37c3202dcea8b"
+  integrity sha512-UA9DX/OJwv6YwP9Vn7Ti/vF80XL+YA5H2l7BpCtUr3ya8LWHFzpiO5R+N7dN16ujpIxhekRFuOOF82bXX7K/lg==
 
 prelude-ls@^1.2.1:
   version "1.2.1"
@@ -3073,6 +3140,11 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
+
+wildcard@^1.1.0:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/wildcard/-/wildcard-1.1.2.tgz#a7020453084d8cd2efe70ba9d3696263de1710a5"
+  integrity sha512-DXukZJxpHA8LuotRwL0pP1+rS6CS7FF2qStDDE1C7DDg2rLud2PXRMuEDYIPhgEezwnlHNL4c+N6MfMTjCGTng==
 
 word-wrapper@^1.0.7:
   version "1.0.7"

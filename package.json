@@ -15,6 +15,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@supabase/supabase-js": "^2.38.4",
+    "@uppy/core": "^3.7.1",
+    "@uppy/drag-drop": "^3.0.3",
     "aframe": "^1.5.0",
     "aframe-react": "^4.4.0",
     "ar.js": "^2.2.2",
