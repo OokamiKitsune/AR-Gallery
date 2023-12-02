@@ -2,33 +2,56 @@ import imnotartlogo from '../assets/imnotartlogo.png'
 import '../App.css'
 import { useState } from 'react';
 import Upload from '../components/Upload';
-// import { env }  from 'process';
-// import { createClient } from '@supabase/supabase-js'
-// const supabaseUrl = env.DATABASE_URL
-// const supabaseKey = env.PUBLIC_API_KEY
-// // Create a single supabase client for interacting with your database
+import { env }  from 'process';
+import { createClient } from '@supabase/supabase-js'
+const supabaseUrl = 'https://hxsxzqopqnktoldqenle.supabase.co'
+
+// TODO: Authenticate with Supabase to create users
+// const supabaseKey = process.env.SUPABASE_KEY
 // const supabase = createClient(supabaseUrl, supabaseKey)
 
 
 const AdminPanel = () => {
 
     const [loggedIn, setLoggedIn] = useState(false);
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        // Add login logic
-        if (username === 'admin' && password === 'password') {
-            setLoggedIn(true);
-            setUsername('');
-            setPassword('');
 
-        } else {
-            alert('Invalid username or password');
-            setUsername('');
+    // Handle authentication/login
+    const handleLogin = async () => {
+        try {
+            const { user, error } = await supabase.auth.signIn({
+                email: email, // Considering using email for login
+                password: password,
+            });
+    
+            if (error) {
+                throw error;
+            }
+    
+            if (user) {
+                setLoggedIn(true);
+                setEmail('');
+                setPassword('');
+                // Store the token in local storage
+                // localStorage.setItem('token', user.access_token);
+            }
+        } catch (error) {
+            alert('Invalid email or password 🤭');
             setPassword('');
         }
-    }
+
+        // Test login REMOVE LATER
+        if (email === 'admin' && password === 'password') {
+            setLoggedIn(true);
+            setEmail('');
+            setPassword('');
+
+        }
+    };
+
+        
     // Demo code for adding a new art piece
     const artPieces = [
         {
@@ -62,11 +85,11 @@ const AdminPanel = () => {
                     <div className="login-container">
                     <input
                         type="text"
-                        id="username"
+                        id="email"
                         required="true"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     
 
@@ -81,13 +104,14 @@ const AdminPanel = () => {
                         required="true"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        
                     />
+
                     </div>
-                    <br>
-                    </br>
-                    <br>
-                    </br>
+                    <div className='login-button'>
                     <button onClick={handleLogin}>Login</button>
+                        </div>
+                    
                 </div>
             ) : (
                 <div>

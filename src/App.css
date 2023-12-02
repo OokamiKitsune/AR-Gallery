@@ -137,6 +137,15 @@
   width: 200px;
 }
 
+.login-button {
+  position: relative;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+}
+
 .login-container input[type="text"] {
   font-size: 20px;
   width: 100%;
