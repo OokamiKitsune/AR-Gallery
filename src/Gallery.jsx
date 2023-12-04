@@ -28,8 +28,8 @@ const Gallery = () => {
         },
         {
             id: 2,
-            name: 'Art Piece 2',
-            author: 'Author 2',
+            name: 'Burj Khalifa',
+            author: 'Eric Jordan',
             website: 'https://www.google.com',
             imageUrl: '/2.jpg',
             arEnabled: false,

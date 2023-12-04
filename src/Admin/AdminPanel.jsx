@@ -2,13 +2,7 @@ import imnotartlogo from '../assets/imnotartlogo.png'
 import '../App.css'
 import { useState } from 'react';
 import Upload from '../components/Upload';
-import { env }  from 'process';
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://hxsxzqopqnktoldqenle.supabase.co'
 
-// TODO: Authenticate with Supabase to create users
-// const supabaseKey = process.env.SUPABASE_KEY
-// const supabase = createClient(supabaseUrl, supabaseKey)
 
 
 const AdminPanel = () => {
@@ -20,9 +14,23 @@ const AdminPanel = () => {
 
     // Handle authentication/login
     const handleLogin = async () => {
+
+        fetch('/api/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            });
+
         try {
+
             const { user, error } = await supabase.auth.signIn({
-                email: email, // Considering using email for login
+                email: email, 
                 password: password,
             });
     
