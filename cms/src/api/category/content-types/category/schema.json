@@ -1,0 +1,77 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categories",
+  "info": {
+    "singularName": "category",
+    "pluralName": "categories",
+    "displayName": "Category",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "uploaded_contents": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::uploaded-content.uploaded-content",
+      "mappedBy": "categories"
+    },
+    "Tags": {
+      "type": "enumeration",
+      "enum": [
+        "Abstract Art",
+        "Academicism",
+        "Action Painting",
+        "Analytical Cubism",
+        "Art Deco",
+        "Art Nouveau",
+        "Baroque",
+        "Byzantine Art",
+        "Cloisonnism",
+        "Color Field Painting",
+        "Conceptual Art",
+        "Constructivism",
+        "Cubism",
+        "Dadaism",
+        "De Stijl",
+        "Divisionism",
+        "Expressionism",
+        "Fauvism",
+        "Figurative Art",
+        "Futurism",
+        "Graffiti Art",
+        "Impressionism",
+        "Installation Art",
+        "International Gothic Style",
+        "Kinetic Art",
+        "Land Art",
+        "Mannerism",
+        "Minimalism",
+        "Modernism",
+        "Naïve Art",
+        "Naturalism",
+        "Neo-Classicism",
+        "Op Art",
+        "Photorealism",
+        "Pointillism",
+        "Pop Art",
+        "Post-Impressionism",
+        "Precisionism",
+        "Realism",
+        "Renaissance",
+        "Rococo",
+        "Romanticism",
+        "Socialist Realism",
+        "Stuckism",
+        "Surrealism",
+        "Symbolism",
+        "Synthetic Cubism",
+        "Tonalism",
+        "Ukiyo-e",
+        "Video Art"
+      ]
+    }
+  }
+}

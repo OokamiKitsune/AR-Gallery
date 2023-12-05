@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "uploaded_contents",
+  "info": {
+    "singularName": "uploaded-content",
+    "pluralName": "uploaded-contents",
+    "displayName": "Uploaded-Content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "richtext"
+    },
+    "Media": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "uploaded_contents"
+    }
+  }
+}
