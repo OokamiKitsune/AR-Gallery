@@ -1,14 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
-const app = express();
 import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = "https://hxsxzqopqnktoldqenle.supabase.co";
 
-// TODO: Authenticate with Supabase to create users
-const supabaseKey = process.env.SUPABASE_KEY;
+// Load environment variables from .env file
+dotenv.config();
+
+const app = express();
+
+const supabaseUrl = process.env.DATABASE_URL;
+const supabaseKey = process.env.PUBLIC_API_KEY;
+console.log(supabaseUrl);
+console.log(supabaseKey);
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-dotenv.config();
 app.use(express.json());
 
 // Define Routes
@@ -31,16 +35,23 @@ app.put("/api/art/:id", (req, res) => {
 // Create user
 app.post("/api/users", async (req, res) => {
   try {
-    const newUser = await supabase.auth.signUp({
-      email: req.body.email,
-      password: req.body.password,
+    const { email, password } = req.body;
+    const { user, session, error } = await supabase.auth.signUp({
+      email,
+      password,
     });
 
+    if (error) {
+      // Handle error in sign up
+      return res.status(400).json({ message: "Error signing up", error });
+    }
+
+    // User created successfully and session created successfully
     res
-      .status(201)
-      .json({ message: "New user created successfully", user: newUser });
+      .status(200)
+      .json({ message: "User created successfully", user, session });
   } catch (error) {
-    res.status(400).json({ message: "Error creating user", error });
+    res.status(500).json({ message: "Server error", error });
   }
 });
 
