@@ -16,7 +16,9 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@supabase/supabase-js": "^2.38.4",
     "@uppy/core": "^3.7.1",
+    "@uppy/dashboard": "^3.7.1",
     "@uppy/drag-drop": "^3.0.3",
+    "@uppy/react": "^3.2.1",
     "aframe": "^1.5.0",
     "aframe-react": "^4.4.0",
     "ar.js": "^2.2.2",
@@ -27,7 +29,8 @@
     "react-router-dom": "^6.19.0",
     "supabase": ">=1.8.1",
     "supertest": "^6.3.3",
-    "three": "^0.158.0"
+    "three": "^0.158.0",
+    "uppy": "^3.20.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

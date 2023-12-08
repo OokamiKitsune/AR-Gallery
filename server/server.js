@@ -4,36 +4,16 @@ import { createClient } from "@supabase/supabase-js";
 
 // Load environment variables from .env file
 dotenv.config();
-
 const app = express();
-
 const supabaseUrl = process.env.DATABASE_URL;
 const supabaseKey = process.env.PUBLIC_API_KEY;
-console.log(supabaseUrl);
-console.log(supabaseKey);
 const supabase = createClient(supabaseUrl, supabaseKey);
-
 app.use(express.json());
 
 // Define Routes
 
-// Get all art
-app.get("/api/art", (req, res) => {
-  res.json({ msg: "Fetch art" });
-});
-
-// Upload art
-app.post("/api/art/upload", (req, res) => {
-  res.json({ msg: "Add art" });
-});
-
-// Update art
-app.put("/api/art/:id", (req, res) => {
-  res.json({ msg: "Update art" });
-});
-
-// Create user
-app.post("/api/users", async (req, res) => {
+// Create a user
+app.post("/api/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
     const { user, session, error } = await supabase.auth.signUp({
@@ -50,6 +30,66 @@ app.post("/api/users", async (req, res) => {
     res
       .status(200)
       .json({ message: "User created successfully", user, session });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Login a user
+app.post("/api/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const { user, session, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      // Handle error in sign in
+      return res.status(400).json({ message: "Error signing in", error });
+    }
+
+    // User signed in successfully and session created successfully
+    res
+      .status(200)
+      .json({ message: "User signed in successfully", user, session });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Logout a user
+app.post("/api/logout", async (req, res) => {
+  try {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      // Handle error in sign out
+      return res.status(400).json({ message: "Error signing out", error });
+    }
+
+    // User signed out successfully
+    res.status(200).json({ message: "User signed out successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Upload art
+app.post("/api/art/upload", async (req, res) => {
+  try {
+    const { title, description, image_url } = req.body;
+    const { data, error } = await supabase
+      .from("art")
+      .insert([{ title, description, image_url }]);
+
+    if (error) {
+      // Handle error in inserting into table
+      return res.status(400).json({ message: "Error with upload", error });
+    }
+
+    // Art uploaded successfully
+    res.status(200).json({ message: "Upload successful", data });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }

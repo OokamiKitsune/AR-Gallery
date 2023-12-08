@@ -1,8 +1,8 @@
-import './App.css';
-import Gallery from './Gallery';
-import AdminPanel from './Admin/AdminPanel';
-import ARView from './AR/ARView';
-import { Routes, Route } from 'react-router-dom';
+import "./App.css";
+import Gallery from "./Gallery";
+import AdminPanel from "./Admin/AdminPanel";
+import ARView from "./AR/ARView";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
