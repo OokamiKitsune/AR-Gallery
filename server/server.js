@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { createClient } from "@supabase/supabase-js";
 
 // Load environment variables from .env file
@@ -8,7 +9,18 @@ const app = express();
 const supabaseUrl = process.env.DATABASE_URL;
 const supabaseKey = process.env.PUBLIC_API_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
+const origin = process.env.FRONTEND_URL;
+console.log(origin);
+
 app.use(express.json());
+
+// Cors middleware
+const corsOptions = {
+  origin: origin,
+  optionsSuccessStatus: 200,
+};
+console.log(corsOptions);
+app.use(cors(corsOptions));
 
 // Define Routes
 

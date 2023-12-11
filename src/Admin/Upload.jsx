@@ -4,15 +4,28 @@ import "@uppy/core/dist/style.css";
 import Dashboard from "@uppy/dashboard";
 import "@uppy/dashboard/dist/style.css";
 import Tus from "@uppy/tus";
+// import { v4 as uuidv4 } from "uuid";
+
+const SECRET_API_KEY = "";
+const SUPABASE_PROJECT_ID = "";
+const STORAGE_BUCKET = "images";
 
 const Upload = () => {
   useEffect(() => {
-    const SUPABASE_ANON_KEY = "";
-    const SUPABASE_PROJECT_ID = "";
-    const STORAGE_BUCKET = "images";
-
     const folder = "test";
     const supabaseStorageURL = `https://${SUPABASE_PROJECT_ID}.supabase.co/storage/v1/upload/resumable`;
+
+    // Generate a unique name for the file
+    // const generateUniqueName = (file) => {
+    //   const uniqueID = uuidv4.v4();
+    //   const fileExtension = file.name.split(".").pop();
+    //   const fileName = file.name.split(".").slice(0, -1).join(".");
+    //   const uniqueFileName = `${fileName.join(
+    //     "."
+    //   )}_${uniqueID}.${fileExtension}`;
+    //   console.log("uniqueFileName", uniqueFileName);
+    //   return uniqueFileName;
+    // };
 
     const uppy = new Uppy({
       meta: { folder },
@@ -27,8 +40,8 @@ const Upload = () => {
       .use(Tus, {
         endpoint: supabaseStorageURL,
         headers: {
-          authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-          apikey: SUPABASE_ANON_KEY,
+          authorization: `Bearer ${SECRET_API_KEY}`,
+          apikey: SECRET_API_KEY,
         },
         uploadDataDuringCreation: true,
         chunkSize: 6 * 1024 * 1024,
@@ -44,6 +57,10 @@ const Upload = () => {
       });
 
     uppy.on("file-added", (file) => {
+      // Invoke the generateUniqueName function to generate a unique name for the file
+      // const uniqueFileName = generateUniqueName(file);
+      console.log("file added", file);
+
       const supabaseMetadata = {
         bucketName: STORAGE_BUCKET,
         objectName: folder ? `${folder}/${file.name}` : file.name,
