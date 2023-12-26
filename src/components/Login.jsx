@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Formik } from "formik";
 
-const Signup = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
@@ -44,6 +44,7 @@ const Signup = () => {
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               handleLogin(values);
+              // Write code to handle login
               alert(JSON.stringify(values, null, 2));
               setSubmitting(false);
             }, 400);
@@ -89,4 +90,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

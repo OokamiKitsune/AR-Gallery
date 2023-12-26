@@ -6,29 +6,65 @@ import { createClient } from "@supabase/supabase-js";
 // Load environment variables from .env file
 dotenv.config();
 const app = express();
-const supabaseUrl = process.env.DATABASE_URL;
-const supabaseKey = process.env.PUBLIC_API_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
-const origin = process.env.FRONTEND_URL;
-console.log(origin);
+
+const {
+  DATABASE_URL: supabaseUrl,
+  PUBLIC_API_KEY: supabasePublicAPIKey,
+  SECRET_API_KEY: supabaseSecretAPIKey,
+  SUPABASE_PROJECT_ID: supabaseProjectID,
+  STORAGE_BUCKET: supabaseStorageBucket,
+  FRONTEND_URL: originURL,
+  AUTH_TOKEN: authToken,
+} = process.env;
+
+const supabase = createClient(supabaseUrl, supabasePublicAPIKey);
+console.log(originURL);
 
 app.use(express.json());
 
 // Cors middleware
 const corsOptions = {
-  origin: origin,
+  origin: originURL,
   optionsSuccessStatus: 200,
 };
 console.log(corsOptions);
 app.use(cors(corsOptions));
 
-// Define Routes
+// Middleware logging
+app.use((req, res, next) => {
+  console.log(`💻 Call logged: Method: ${req.method} URL: ${req.url}`);
+  next();
+});
 
-// Create a user
+// Middleware for authentication
+const authenticate = async (req, res, next) => {
+  const token = req.headers.authorization;
+  if (token === `Bearer ${authToken}`) {
+    next();
+  } else {
+    res
+      .status(401)
+      .json({ message: "Not authorized. Did you provide a valid auth token?" });
+  }
+};
+
+// Endpoints
+
+// Authorization endpoint
+app.get("/api/auth", authenticate, async (req, res) => {
+  res.json({
+    supabaseUrl: supabaseUrl,
+    supabaseKey: supabasePublicAPIKey,
+    supabaseSecretAPIKey: supabaseSecretAPIKey,
+    supabaseProjectID: supabaseProjectID,
+  });
+});
+
+// Create user endpoint
 app.post("/api/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const { user, session, error } = await supabase.auth.signUp({
+    const { user, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -38,16 +74,20 @@ app.post("/api/signup", async (req, res) => {
       return res.status(400).json({ message: "Error signing up", error });
     }
 
+    // Post signup logic
+    const {
+      data: { getuser },
+    } = await supabase.auth.getUser();
+
     // User created successfully and session created successfully
-    res
-      .status(200)
-      .json({ message: "User created successfully", user, session });
+    res.status(200).json({ message: "User created successfully", getuser });
+    console.log(getuser);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
 });
 
-// Login a user
+// Login user endpoint
 app.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -70,7 +110,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// Logout a user
+// Logout user endpoint
 app.post("/api/logout", async (req, res) => {
   try {
     const { error } = await supabase.auth.signOut();
@@ -82,6 +122,26 @@ app.post("/api/logout", async (req, res) => {
 
     // User signed out successfully
     res.status(200).json({ message: "User signed out successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Get images endpoint
+
+app.get("/api/images", async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("art")
+      .select("id, title, description, image_url");
+
+    if (error) {
+      // Handle error in fetching data
+      return res.status(400).json({ message: "Error fetching data", error });
+    }
+
+    // Data fetched successfully
+    res.status(200).json({ message: "Data fetched successfully", data });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
@@ -109,4 +169,4 @@ app.post("/api/art/upload", async (req, res) => {
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+app.listen(PORT, () => console.log(`📡 Server listening on port ${PORT}`));

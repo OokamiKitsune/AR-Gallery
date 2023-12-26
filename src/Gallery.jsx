@@ -1,58 +1,79 @@
 import imnotartlogo from "./assets/imnotartlogo.png";
+import NabBar from "./components/NavBar/index";
+import { corsHeaders } from "./cors.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { createClient } from "@supabase/supabase-js";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { useNavigate } from "react-router-dom"; // Import useHistory
 
+// To-do: Call backend API to get the images from the database
+
+// const SUPABASE_URL = process.env.REACT_APP_DATABASE_URL;
+
+// const SUPABASE_KEY = process.env.REACT_APP_SECRET_API_KEY;
+
+// Gallery loads all images from storage bucket and displays them.
+
 const Gallery = () => {
+  const [images, setImages] = useState([]);
   const navigate = useNavigate(); // Create history object
-  // Demo code for adding a new art piece
-  const artPieces = [
-    {
-      id: 1,
-      name: "Seagals",
-      author: "Coal Field Hotel",
-      website: "https://www.google.com",
-      imageUrl: "/Seagals.JPEG",
-      arEnabled: true,
-      viewable: true,
-    },
-    {
-      id: 2,
-      name: "Art Piece 2",
-      author: "Author 2",
-      website: "https://www.google.com",
-      imageUrl: "/tenor.gif",
-      arEnabled: true,
-    },
-    {
-      id: 2,
-      name: "Burj Khalifa",
-      author: "Eric Jordan",
-      website: "https://www.google.com",
-      imageUrl: "/2.jpg",
-      arEnabled: false,
-    },
-    {
-      id: 2,
-      name: "Art Piece 2",
-      author: "Author 2",
-      website: "https://www.google.com",
-      imageUrl: "url_to_image_2",
-      arEnabled: false,
-    },
-    // Add more art pieces here...
-  ];
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  useEffect(() => {
+    const getImages = async () => {
+      const fetchedImages = await fetchImages();
+      setImages(fetchedImages);
+    };
+    getImages();
+  }, []);
+  // Function to fetch all images from the bucket
+  const fetchImagesFromBucket = async () => {
+    try {
+      const { data, error } = await supabase.storage
+        .from("images") // Replace 'YOUR_BUCKET_NAME' with your bucket name
+        .list("test/");
+
+      if (error) {
+        console.error("Error fetching images:", error);
+        return [];
+      }
+
+      // Construct URLs for the images in the 'test' directory
+      const images = data.map((file) => ({
+        id: file.id,
+        name: file.name,
+        imageUrl: `https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/${file.name}`,
+        // Add other necessary details
+      }));
+
+      return images || [];
+
+      // 'data' contains information about all the files in the bucket
+    } catch (error) {
+      console.error("Error fetching images:", error);
+      return [];
+    }
+  };
+
+  // Usage example
+  const fetchImages = async () => {
+    const images = await fetchImagesFromBucket();
+    console.log("Images in the bucket:", images);
+    return images;
+  };
 
   return (
     <>
       <div>
+        <NabBar />
         <img src={imnotartlogo} className="logo" alt="imnotArtLogo" />
       </div>
       <h2>Augmented Reality Gallery</h2>
       <p>Enhanced experiance in art viewing.</p>
       <div className="gallery">
-        {artPieces.map((piece) => (
+        {images.map((piece) => (
           <div key={piece.id} className="thumbnail-card">
             <img src={piece.imageUrl} alt={piece.name} />
             <div className="social-links">
