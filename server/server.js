@@ -17,7 +17,7 @@ const {
   AUTH_TOKEN: authToken,
 } = process.env;
 
-const supabase = createClient(supabaseUrl, supabasePublicAPIKey);
+const supabase = createClient(supabaseUrl, supabaseSecretAPIKey);
 console.log(originURL);
 
 app.use(express.json());
@@ -32,7 +32,7 @@ app.use(cors(corsOptions));
 
 // Middleware logging
 app.use((req, res, next) => {
-  console.log(`💻 Call logged: Method: ${req.method} URL: ${req.url}`);
+  console.log(`⚪️ ${req.method} call recieved: ${req.url}`);
   next();
 });
 
@@ -61,7 +61,7 @@ app.get("/api/auth", authenticate, async (req, res) => {
 });
 
 // Create user endpoint
-app.post("/api/signup", async (req, res) => {
+app.post("/api/signup", authenticate, async (req, res) => {
   try {
     const { email, password } = req.body;
     const { user, error } = await supabase.auth.signUp({
@@ -131,19 +131,33 @@ app.post("/api/logout", async (req, res) => {
 
 app.get("/api/images", async (req, res) => {
   try {
-    const { data, error } = await supabase
-      .from("art")
-      .select("id, title, description, image_url");
+    const { data, error } = await supabase.storage
+      .from("images") // Replace 'YOUR_BUCKET_NAME' with your bucket name
+      .list("test/");
+    console.log(data);
 
     if (error) {
-      // Handle error in fetching data
-      return res.status(400).json({ message: "Error fetching data", error });
+      console.error("Error fetching images:", error);
+      res.status(400), error;
     }
 
-    // Data fetched successfully
-    res.status(200).json({ message: "Data fetched successfully", data });
+    // Construct URLs for the images in the 'test' directory
+    const images = data.map((file) => ({
+      id: file.id,
+      name: file.name,
+      imageUrl: `https://${supabaseProjectID}.supabase.co/storage/v1/object/public/images/test/${file.name}`, // Test URL
+      // Add other necessary details
+    }));
+
+    res.status(200).json({
+      message: "Images fetched successfully",
+      images: images,
+    });
+
+    // 'data' contains information about all the files in the bucket
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Error fetching images:", error);
+    res.status(500), error;
   }
 });
 
