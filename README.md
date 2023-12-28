@@ -76,3 +76,9 @@ Run the backend server
 node server.js
 
 The backend has a default CORS policy set. You might need to make some changes to the CORS policy to ensure that you can allow requests from the frontend URL and not get a CORS block error.
+
+# SSL setup
+The since the frontend needs HTTPS to test out AR.js the backend needs to also be setup for HTTPS. You can generate your own self signed cert using:
+
+openssl x509 -noout -text -in server.cert
+openssl rsa -noout -text -in server.key
