@@ -1,9 +1,7 @@
 import imnotartlogo from "./assets/imnotartlogo.png";
 import NabBar from "./components/NavBar/index";
-import { corsHeaders } from "./cors.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { createClient } from "@supabase/supabase-js";
 import { useState, useEffect } from "react";
 import "./App.css";
 import { useNavigate } from "react-router-dom"; // Import useHistory
@@ -19,50 +17,24 @@ import { useNavigate } from "react-router-dom"; // Import useHistory
 const Gallery = () => {
   const [images, setImages] = useState([]);
   const navigate = useNavigate(); // Create history object
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   useEffect(() => {
+    console.log("inside useEffect");
     const getImages = async () => {
-      const fetchedImages = await fetchImages();
-      setImages(fetchedImages);
+      try {
+        const response = await fetch("https://192.168.50.243:5000/api/images"); // Fetch images from backend API
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched data:", data); // Log the fetched data
+        setImages(data.images || []); // Set the fetched images in state
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
     };
     getImages();
   }, []);
-  // Function to fetch all images from the bucket
-  const fetchImagesFromBucket = async () => {
-    try {
-      const { data, error } = await supabase.storage
-        .from("images") // Replace 'YOUR_BUCKET_NAME' with your bucket name
-        .list("test/");
-
-      if (error) {
-        console.error("Error fetching images:", error);
-        return [];
-      }
-
-      // Construct URLs for the images in the 'test' directory
-      const images = data.map((file) => ({
-        id: file.id,
-        name: file.name,
-        imageUrl: `https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/${file.name}`,
-        // Add other necessary details
-      }));
-
-      return images || [];
-
-      // 'data' contains information about all the files in the bucket
-    } catch (error) {
-      console.error("Error fetching images:", error);
-      return [];
-    }
-  };
-
-  // Usage example
-  const fetchImages = async () => {
-    const images = await fetchImagesFromBucket();
-    console.log("Images in the bucket:", images);
-    return images;
-  };
 
   return (
     <>

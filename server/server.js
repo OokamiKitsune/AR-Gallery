@@ -1,4 +1,6 @@
 import express from "express";
+import fs from "fs";
+import https from "https";
 import dotenv from "dotenv";
 import cors from "cors";
 import { createClient } from "@supabase/supabase-js";
@@ -6,6 +8,12 @@ import { createClient } from "@supabase/supabase-js";
 // Load environment variables from .env file
 dotenv.config();
 const app = express();
+
+// HTTPS options
+const httpsOptions = {
+  key: fs.readFileSync("./server.key"),
+  cert: fs.readFileSync("./server.cert"),
+};
 
 const {
   DATABASE_URL: supabaseUrl,
@@ -138,7 +146,7 @@ app.get("/api/images", async (req, res) => {
 
     if (error) {
       console.error("Error fetching images:", error);
-      res.status(400), error;
+      res.status(400).json({ error });
     }
 
     // Construct URLs for the images in the 'test' directory
@@ -148,9 +156,9 @@ app.get("/api/images", async (req, res) => {
       imageUrl: `https://${supabaseProjectID}.supabase.co/storage/v1/object/public/images/test/${file.name}`, // Test URL
       // Add other necessary details
     }));
+    res.setHeader("Content-Type", "application/json");
 
     res.status(200).json({
-      message: "Images fetched successfully",
       images: images,
     });
 
@@ -182,5 +190,7 @@ app.post("/api/art/upload", async (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`📡 Server listening on port ${PORT}`));
+
+https.createServer(httpsOptions, app).listen(5000, () => {
+  console.log("Server running on https://localhost:5000");
+});
