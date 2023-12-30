@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../server"; // Replace with the correct path to your Express app
+import app from "../server";
 
 const request = supertest(app);
 

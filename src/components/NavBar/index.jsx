@@ -1,19 +1,25 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import imnotartlogo from "../../assets/imnotartlogo.png";
+import { useState, useEffect } from "react";
 
 import { Navbar, Nav, Button } from "react-bootstrap";
 
 const NavBar = () => {
+  const [siteName, setSiteName] = useState("AR Gallery");
+  const [siteLogo, setSiteLogo] = useState(imnotartlogo);
+
+  // Get site name and logo from backend API
+
   return (
     <Navbar bg="light" expand="lg">
       {/* Replace the text with an image */}
       <Navbar.Brand href="/">
         <img
-          src={imnotartlogo}
+          src={siteLogo}
           width="200"
           height="50"
           className="d-inline-block align-top"
-          alt="My App Logo"
+          alt={siteName}
         />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom"; // Import useHistory
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
+  const [siteName, setSiteName] = useState("AR Gallery");
   const navigate = useNavigate(); // Create history object
 
   useEffect(() => {

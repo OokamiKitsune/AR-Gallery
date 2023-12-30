@@ -189,6 +189,27 @@ app.post("/api/art/upload", async (req, res) => {
   }
 });
 
+// Get a specific image and its details to render in AR via its ID
+app.get("/api/get-ar-image/:id", async (req, res) => {
+  try {
+    const { data: art, error } = await supabase
+      .from("art")
+      .select("*")
+      .eq("id", req.params.id)
+      .single();
+
+    if (error) {
+      // Handle error in fetching from table
+      return res.status(400).json({ message: "Error fetching art", error });
+    }
+
+    // Art fetched successfully
+    res.status(200).json({ message: "Art fetched successfully", art });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 // Start server
 
 https.createServer(httpsOptions, app).listen(5000, () => {

@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+localhost.pem
+localhost-key.pem
 
 # Editor directories and files
 .vscode/*
