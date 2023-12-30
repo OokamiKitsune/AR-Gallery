@@ -6,6 +6,12 @@
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc)
   uses [SWC](https://swc.rs/) for Fast Refresh
 
+# Contributing
+If you are contributing to the codebase please know this:
+
+- All issues are created within Jira and branched off the dev branch. If you see a branch prefixed with "AG-#", this is the issue key within Jira that identifies that particular feature or bug fix.
+- While we adhere to and manage main branch features within Jira, you are free to add features for fixes outside the Jira enviroment within Github. Please only fork and work on the dev branch. 
+- When you contribute: Fork and clone the dev branch > Make your changes then push to dev.
 
 # Set-up
 
