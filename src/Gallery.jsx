@@ -23,7 +23,7 @@ const Gallery = () => {
     console.log("inside useEffect");
     const getImages = async () => {
       try {
-        const response = await fetch("https://192.168.50.243:5000/api/images"); // Fetch images from backend API
+        const response = await fetch("http://192.168.50.243:5000/api/images"); // Fetch images from backend API
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

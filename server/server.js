@@ -10,10 +10,10 @@ dotenv.config();
 const app = express();
 
 // HTTPS options
-const httpsOptions = {
-  key: fs.readFileSync("./server.key"),
-  cert: fs.readFileSync("./server.cert"),
-};
+// const httpsOptions = {
+//   key: fs.readFileSync("./server.key"),
+//   cert: fs.readFileSync("./server.cert"),
+// };
 
 const {
   DATABASE_URL: supabaseUrl,
@@ -210,8 +210,15 @@ app.get("/api/get-ar-image/:id", async (req, res) => {
   }
 });
 
-// Start server
+// Start server over http for development
 
-https.createServer(httpsOptions, app).listen(5000, () => {
-  console.log("Server running on https://localhost:5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Start server over https for production
+
+// https.createServer(httpsOptions, app).listen(5000, () => {
+//   console.log("Server running on https://localhost:5000");
+// });
