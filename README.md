@@ -6,6 +6,12 @@
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc)
   uses [SWC](https://swc.rs/) for Fast Refresh
 
+# Contributing
+If you are contributing to the codebase please know this:
+
+- All issues are created within Jira and branched off the dev branch. If you see a branch prefixed with "AG-#", this is the issue key within Jira that identifies that particular feature or bug fix.
+- While we adhere to and manage main branch features within Jira, you are free to add features for fixes outside the Jira enviroment within Github. Please only fork and work on the dev branch. 
+- When you contribute: Fork and clone the dev branch > Make your changes then push to dev.
 
 # Set-up
 
@@ -78,7 +84,7 @@ node server.js
 The backend has a default CORS policy set. You might need to make some changes to the CORS policy to ensure that you can allow requests from the frontend URL and not get a CORS block error.
 
 # SSL setup
-The since the frontend needs HTTPS to test out AR.js the backend needs to also be setup for HTTPS. You can generate your own self signed cert using:
+The frontend and backend need HTTPS to test/use AR.js the backend needs to also be setup for HTTPS. You can generate your own self signed cert using:
 
 openssl x509 -noout -text -in server.cert
 openssl rsa -noout -text -in server.key
