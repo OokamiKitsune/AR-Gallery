@@ -6,21 +6,42 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const authToken = import.meta.env.VITE_AUTH_TOKEN;
+  console.log("Auth token:", authToken);
 
   // Handle authentication/login
   const handleSignup = async (formValues) => {
     try {
-      const response = axios.post("http://localhost:5000/api/signup", {
-        email: formValues.email,
-        password: formValues.password,
-      });
+      // Check if passwords match
+      if (formValues.password !== formValues.confirmPassword) {
+        console.log(
+          "Password",
+          formValues.password,
+          "Confirm",
+          formValues.confirmPassword
+        );
+        alert("Passwords do not match.");
+        return;
+      }
+      const response = axios.post(
+        "http://localhost:5000/api/signup",
+        {
+          email: formValues.email,
+          password: formValues.password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`, // Pass the authentication token from .env
+          },
+        }
+      );
       setLoggedIn(true);
       setEmail("");
       setPassword("");
       console.log(response);
     } catch (error) {
       setLoggedIn(false);
-      console.log(error);
+      console.log("Error with REQUEST: ", error);
     }
   };
 
@@ -76,6 +97,14 @@ const Signup = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
+              />
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                onChange={handleChange} // Add onChange for confirmPassword
+                onBlur={handleBlur} // Add onBlur for confirmPassword
+                value={values.confirmPassword}
               />
               {errors.password && touched.password && errors.password}
               <button type="submit" disabled={isSubmitting}>
