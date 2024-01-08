@@ -10,10 +10,10 @@ dotenv.config();
 const app = express();
 
 // HTTPS options
-const httpsOptions = {
-  key: fs.readFileSync("./server.key"),
-  cert: fs.readFileSync("./server.cert"),
-};
+// const httpsOptions = {
+//   key: fs.readFileSync("./server.key"),
+//   cert: fs.readFileSync("./server.cert"),
+// };
 
 const {
   DATABASE_URL: supabaseUrl,
@@ -85,10 +85,12 @@ app.post("/api/signup", authenticate, async (req, res) => {
     // Post signup logic
     const {
       data: { getuser },
-    } = await supabase.auth.getUser();
+    } = await supabase.auth.getUser(email);
 
     // User created successfully and session created successfully
-    res.status(200).json({ message: "User created successfully", getuser });
+    res
+      .status(200)
+      .json({ message: "User created successfully", user: getuser });
     console.log(getuser);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
