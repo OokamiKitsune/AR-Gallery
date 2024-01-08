@@ -210,6 +210,28 @@ app.get("/api/get-ar-image/:id", async (req, res) => {
   }
 });
 
+app.post("/api/generate-ar-descriptors", authenticate, async (req, res) => {
+  try {
+    // Extract image URLs or identifiers from the request body sent by the frontend
+    const { imageURLs } = req.body;
+
+    // Use imageURLs to trigger image processing logic (from NFT Marker Creator)
+
+    // Process the images and generate fset, iset, and fse3 images
+
+    // Store processed images in Supabase storage
+
+    // Store references or metadata in Supabase database to link processed images to originals
+
+    res
+      .status(200)
+      .json({ message: "AR descriptors generated and stored successfully" });
+  } catch (error) {
+    console.error("Error generating AR descriptors:", error);
+    res.status(500).json({ message: "Error generating AR descriptors", error });
+  }
+});
+
 // Start server
 
 https.createServer(httpsOptions, app).listen(5000, () => {
