@@ -211,7 +211,7 @@ app.get("/api/get-ar-image/:id", async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
-
+// Generate image descriptors
 app.post("/api/generate-ar-descriptors", authenticate, async (req, res) => {
   try {
     // Extract image URLs or identifiers from the request body sent by the frontend
