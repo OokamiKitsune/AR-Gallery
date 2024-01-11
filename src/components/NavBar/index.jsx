@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import imnotartlogo from "../../assets/imnotartlogo.png";
 import { useState, useEffect } from "react";
 
