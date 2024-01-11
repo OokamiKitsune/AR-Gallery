@@ -47,7 +47,7 @@ const Signup = () => {
 
   return (
     <>
-      <div>
+      <div className="login-container">
         <h1>Sign Up</h1>
         <Formik
           initialValues={{ email: "", password: "" }}
@@ -80,33 +80,52 @@ const Signup = () => {
             isSubmitting,
             /* and other goodies */
           }) => (
-            <form onSubmit={handleSignup}>
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-              />
-              {errors.email && touched.email && errors.email}
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                onChange={handleChange} // Add onChange for confirmPassword
-                onBlur={handleBlur} // Add onBlur for confirmPassword
-                value={values.confirmPassword}
-              />
-              {errors.password && touched.password && errors.password}
+            <form onSubmit={handleSignup} className="login-form">
+              <div className="form-group">
+                <label htmlFor="email"></label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Enter your email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                />
+                {errors.email && touched.email && (
+                  <div className="error">{errors.email}</div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="password"></label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                />
+                {errors.password && touched.password && (
+                  <div className="error">{errors.password}</div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="confirmPassword"></label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  id="confirmPassword"
+                  placeholder="Confirm"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.confirmPassword}
+                />
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <div className="error">{errors.confirmPassword}</div>
+                )}
+              </div>
               <button type="submit" disabled={isSubmitting}>
                 Sign Up
               </button>
