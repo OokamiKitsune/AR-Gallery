@@ -1,5 +1,4 @@
 import imnotartlogo from "./assets/imnotartlogo.png";
-import NabBar from "./components/NavBar/index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
@@ -40,7 +39,6 @@ const Gallery = () => {
   return (
     <>
       <div>
-        <NabBar />
         <img src={imnotartlogo} className="logo" alt="imnotArtLogo" />
       </div>
       <h2>Augmented Reality Gallery</h2>

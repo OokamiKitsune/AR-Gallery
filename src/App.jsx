@@ -6,17 +6,21 @@ import { Routes, Route } from "react-router-dom";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import NotFound from "./404";
+import NabBar from "./components/NavBar/index";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Gallery />} />
-      <Route path="/admin" element={<AdminPanel />} />
-      <Route path="/ar-view" element={<ARView />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <>
+      <NabBar />
+      <Routes>
+        <Route path="/" element={<Gallery />} />
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/ar-view" element={<ARView />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import imnotartlogo from "../../assets/imnotartlogo.png";
 import { useState, useEffect } from "react";
 
@@ -11,7 +11,7 @@ const NavBar = () => {
   // Get site name and logo from backend API
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" fixed="top">
       {/* Replace the text with an image */}
       <Navbar.Brand href="/">
         <img
