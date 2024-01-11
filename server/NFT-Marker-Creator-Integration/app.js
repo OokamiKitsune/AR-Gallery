@@ -43,6 +43,10 @@ var imageData = {
   array: [],
 };
 
+const imageURL =
+  "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/alpha%20wolf%202145_0ccf0772-2855-4c3a-9606-3085d6ea6d6e.jpg";
+
+fetchImageFromURL(imageURL);
 // Get image from URL
 async function fetchImageFromURL(imageURL) {
   try {
