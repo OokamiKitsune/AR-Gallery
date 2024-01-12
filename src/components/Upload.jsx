@@ -12,7 +12,7 @@ const SECRET_API_KEY = import.meta.env.VITE_SECRET_API_KEY;
 const STORAGE_BUCKET = import.meta.env.VITE_STORAGE_BUCKET;
 
 // Upload images make use of the tus protocol using uppy.
-// Uploads go directly to the storage bucket and target folder specified.
+// Uploads go directly to the storage bucket on Supabase and target folder specified.
 const Upload = () => {
   useEffect(() => {
     const targetFolder = "test";
@@ -47,7 +47,7 @@ const Upload = () => {
         },
       });
 
-    // Generate a unique name for the file
+    // Generate a unique name for the file to avoid conflicts
     const generateUniqueName = (file) => {
       const uniqueID = uuidv4();
       const fileExtension = file.name.split(".").pop();
@@ -60,7 +60,6 @@ const Upload = () => {
     uppy.on("file-added", (file) => {
       // Invoke the generateUniqueName function to generate a unique name for the file
       const uniqueFileName = generateUniqueName(file);
-
       const supabaseMetadata = {
         bucketName: STORAGE_BUCKET,
         objectName: targetFolder
