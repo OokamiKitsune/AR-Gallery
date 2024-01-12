@@ -7,9 +7,11 @@ import Tus from "@uppy/tus";
 import { v4 as uuidv4 } from "uuid";
 
 // To-do: Call the backend API to get the secret API key
-const SECRET_API_KEY = "";
-const SUPABASE_PROJECT_ID = "";
-const STORAGE_BUCKET = "";
+const SUPABASE_PROJECT_ID = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+const SECRET_API_KEY = import.meta.env.VITE_SECRET_API_KEY;
+const STORAGE_BUCKET = import.meta.env.VITE_STORAGE_BUCKET;
+
+console.log("SUPABASE_PROJECT_ID", SUPABASE_PROJECT_ID);
 
 const Upload = () => {
   useEffect(() => {
