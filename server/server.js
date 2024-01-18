@@ -65,6 +65,7 @@ app.get("/api/auth", authenticate, async (req, res) => {
     supabaseKey: supabasePublicAPIKey,
     supabaseSecretAPIKey: supabaseSecretAPIKey,
     supabaseProjectID: supabaseProjectID,
+    supabaseStorageBucket: supabaseStorageBucket,
   });
 });
 

@@ -47,7 +47,7 @@ const Upload = () => {
         },
       });
 
-    // Generate a unique name for the file to avoid conflicts
+    // Construct a unique name for the file to avoid conflicts
     const generateUniqueName = (file) => {
       const uniqueID = uuidv4();
       const fileExtension = file.name.split(".").pop();
