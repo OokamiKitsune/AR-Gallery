@@ -12,9 +12,15 @@ const e = require("express");
 
 // Check if WASM module is loaded
 if (typeof Module !== "undefined") {
-  console.log("Wasm module loaded. ✅ ");
+  console.log("🟢 Wasm module loaded.\n");
 
-  // Assign locateFile function
+  // Defense mechanism; Add functions here to check if they are loaded.
+  const wasmModulesFunctions = {
+    locateFile: false,
+    onRuntimeInitialized: false,
+    warnOnce: false,
+  };
+
   Module.locateFile = function (url) {
     if (url.endsWith(".wasm")) {
       return artoolkit_wasm_url;
@@ -22,30 +28,46 @@ if (typeof Module !== "undefined") {
     return url;
   };
 
-  // Check for loaded functions
-  if (typeof Module.locateFile === "function") {
-    console.log("Wasm functions loaded. ✅ ");
-
-    // Script to process the image with the WASM module
-  } else {
-    console.error("Wasm functions not loaded.❗️");
+  // Check and update the status for loaded functions
+  for (const funcName in wasmModulesFunctions) {
+    if (typeof Module[funcName] === "function") {
+      wasmModulesFunctions[funcName] = true;
+      console.log(`🟢 Function ${funcName} loaded. \n`);
+    } else {
+      console.error(`🔴 >>>>>> Function ${funcName} not loaded. <<<<<< \n`);
+    }
   }
+
+  // Begin the image descriptor generator process
+  console.log("🚀 Starting image descriptor generator process...\n");
+  processImage();
 } else {
-  console.error("Wasm module not loaded.");
+  console.error("🔴 Wasm module not loaded.\n");
 }
 
-const imageURL =
-  "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/alpha%20wolf%202145_0ccf0772-2855-4c3a-9606-3085d6ea6d6e.jpg";
+// Fetch image from URL as Array Buffer
 
-fetchImageFromURL(imageURL);
-// Get image from URL
-async function fetchImageFromURL(imageURL) {
+async function processImage() {
+  const imageURL =
+    "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/alpha%20wolf%202145_0ccf0772-2855-4c3a-9606-3085d6ea6d6e.jpg";
+
+  try {
+    const imageBuffer = await fetchImageArrayBuffer(imageURL);
+    // Now imageBuffer contains the array buffer, and you can use it in your decodeJPG function or any other processing logic.
+    if (imageBuffer) {
+      await decodeJPG(imageBuffer);
+      // Continue with other processing steps
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+// Fetch image from URL as Array Buffer
+async function fetchImageArrayBuffer(imageURL) {
   try {
     const response = await axios.get(imageURL, { responseType: "arraybuffer" });
-    // Process the image
-
-    // console.log(response);
-    return response;
+    console.log(response);
+    return response.data; // Return the array buffer directly
   } catch (error) {
     console.error(error);
     if (error.response && error.response.status === 404) {
@@ -56,5 +78,19 @@ async function fetchImageFromURL(imageURL) {
   }
 }
 
-// Pass the image buffer to the processor
-const imageData = fetchImageFromURL(imageURL);
+// Decode JPG images
+async function decodeJPG(imageBuffer) {
+  return new Promise((resolve, reject) => {
+    inkjet.decode(imageBuffer, function (err, decodedImage) {
+      if (err) {
+        console.log("🔴 Error decoding image: ", err);
+        reject(err);
+      } else {
+        console.log("🟢 Image decoded successfully");
+        // Process the image
+        console.log(decodedImage);
+        resolve(decodedImage);
+      }
+    });
+  });
+}
