@@ -38,11 +38,13 @@ if (typeof Module !== "undefined") {
     }
   }
 
-  // Begin the image descriptor generator process
+  // Begin the image descriptor generator process and call the processImage function
   console.log("🚀 Starting image descriptor generator process...\n");
   processImage();
 } else {
-  console.error("🔴 Wasm module not loaded.\n");
+  console.error(
+    "🔴 Wasm module(s) not loaded. Cannot process image. Terminating 😔\n"
+  );
 }
 
 // Fetch image from URL as Array Buffer
@@ -55,6 +57,7 @@ async function processImage() {
     const imageBuffer = await fetchImageArrayBuffer(imageURL);
     // Now imageBuffer contains the array buffer, and you can use it in your decodeJPG function or any other processing logic.
     if (imageBuffer) {
+      // Wait for the image to be decoded
       await decodeJPG(imageBuffer);
       // Continue with other processing steps
     }
