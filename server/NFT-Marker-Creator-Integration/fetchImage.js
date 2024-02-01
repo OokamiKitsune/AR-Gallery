@@ -14,11 +14,12 @@ const e = require("express");
 if (typeof Module !== "undefined") {
   console.log("🟢 Wasm module loaded.\n");
 
-  // Defense mechanism; Add functions here to check if they are loaded.
+  // Defense mechanism; Add functions here to check if they are loaded in the code.
   const wasmModulesFunctions = {
     locateFile: false,
     onRuntimeInitialized: false,
     warnOnce: false,
+    
   };
 
   Module.locateFile = function (url) {
@@ -38,7 +39,7 @@ if (typeof Module !== "undefined") {
     }
   }
 
-  // Begin the image descriptor generator process and call the processImage function
+  // Begin the image processing
   console.log("🚀 Starting image descriptor generator process...\n");
   processImage();
 } else {
@@ -47,26 +48,40 @@ if (typeof Module !== "undefined") {
   );
 }
 
-// Fetch image from URL as Array Buffer
+// Fetch image from URL as Array Buffer, decode it, and process it. This is the main function.
 
 async function processImage() {
   const imageURL =
     "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/alpha%20wolf%202145_0ccf0772-2855-4c3a-9606-3085d6ea6d6e.jpg";
 
   try {
-    const imageBuffer = await fetchImageArrayBuffer(imageURL);
+    const imageBuffer = await generateImageArrayBuffer(imageURL);
     // Now imageBuffer contains the array buffer, and you can use it in your decodeJPG function or any other processing logic.
     if (imageBuffer) {
-      // Wait for the image to be decoded
-      await decodeJPG(imageBuffer);
-      // Continue with other processing steps
+      // Wait for the image to be decoded and store the decoded data
+      const decodedData = await decodeJPG(imageBuffer);
+      // Continue processing the decoded data and generate the image descriptors
+      generateImageDescriptors(decodedData);
     }
   } catch (error) {
     console.error(error);
   }
 }
-// Fetch image from URL as Array Buffer
-async function fetchImageArrayBuffer(imageURL) {
+
+// Begin the process of generating image descriptors
+async function generateImageDescriptors(decodedData) {
+  try {
+    console.log("🚀 Generating image descriptors...\n");
+    console.log("🟢 Decoded data: ", decodedData);
+    Module.onRuntimeInitialized = async function () {
+      Module.
+    };
+  } catch (error) {
+    console.error(error);
+  }
+}
+// Fetch image from URL as Array Buffer data
+async function generateImageArrayBuffer(imageURL) {
   try {
     const response = await axios.get(imageURL, { responseType: "arraybuffer" });
     console.log(response);
