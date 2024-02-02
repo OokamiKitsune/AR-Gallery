@@ -9,6 +9,7 @@ const axios = require("axios");
 var artoolkit_wasm_url = "./libs/NftMarkerCreator_wasm.wasm";
 var Module = require("./libs/NftMarkerCreator_wasm.js");
 const e = require("express");
+const { options } = require("aframe-react");
 
 // Check if WASM module is loaded
 if (typeof Module !== "undefined") {
@@ -19,7 +20,6 @@ if (typeof Module !== "undefined") {
     locateFile: false,
     onRuntimeInitialized: false,
     warnOnce: false,
-    
   };
 
   Module.locateFile = function (url) {
@@ -69,13 +69,24 @@ async function processImage() {
 }
 
 // Begin the process of generating image descriptors
-async function generateImageDescriptors(decodedData) {
+async function generateImageDescriptors(decodedData, options) {
   try {
     console.log("🚀 Generating image descriptors...\n");
     console.log("🟢 Decoded data: ", decodedData);
-    Module.onRuntimeInitialized = async function () {
-      Module.
-    };
+    const storageBucket =
+      "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/";
+
+    // Default options for generating image descriptors
+    let {
+      imageInput = decodedData,
+      noConf = false,
+      withDemo = false,
+      isZFT = false,
+      onlyConfidence = false,
+      outputDestination = storageBucket,
+    } = options;
+
+    Module.onRuntimeInitialized = async function () {};
   } catch (error) {
     console.error(error);
   }
