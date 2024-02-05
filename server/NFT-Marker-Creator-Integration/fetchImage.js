@@ -69,7 +69,7 @@ async function processImage() {
 }
 
 // Begin the process of generating image descriptors
-async function generateImageDescriptors(decodedData, options) {
+async function generateImageDescriptors(decodedData, options = {}) {
   try {
     console.log("🚀 Generating image descriptors...\n");
     console.log("🟢 Decoded data: ", decodedData);
@@ -78,7 +78,9 @@ async function generateImageDescriptors(decodedData, options) {
 
     // Default options for generating image descriptors
     let {
-      imageInput = decodedData,
+      imageWidth = decodedData.width,
+      imageHeight = decodedData.height,
+      imageData = decodedData.data,
       noConf = false,
       withDemo = false,
       isZFT = false,
@@ -86,11 +88,16 @@ async function generateImageDescriptors(decodedData, options) {
       outputDestination = storageBucket,
     } = options;
 
-    Module.onRuntimeInitialized = async function () {};
+    await new Promise((resolve) => {
+      Module.onRuntimeInitialized = resolve;
+      Module._createImageSet(imageData, imageWidth, imageHeight); // Update the order of parameters if needed
+    });
+    // Generate the image descriptors
   } catch (error) {
     console.error(error);
   }
 }
+
 // Fetch image from URL as Array Buffer data
 async function generateImageArrayBuffer(imageURL) {
   try {
