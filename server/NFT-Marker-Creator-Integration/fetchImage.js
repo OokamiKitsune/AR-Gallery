@@ -20,6 +20,7 @@ if (typeof Module !== "undefined") {
     locateFile: false,
     onRuntimeInitialized: false,
     warnOnce: false,
+    HEAPU8: false,
   };
 
   Module.locateFile = function (url) {
@@ -76,8 +77,8 @@ async function generateImageDescriptors(decodedData, options = {}) {
     const storageBucket =
       "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/";
 
-    // Default options for generating image descriptors
-    let {
+    // Options for generating image descriptors
+    const {
       imageWidth = decodedData.width,
       imageHeight = decodedData.height,
       imageData = decodedData.data,
@@ -90,6 +91,10 @@ async function generateImageDescriptors(decodedData, options = {}) {
 
     await new Promise((resolve) => {
       Module.onRuntimeInitialized = resolve;
+      // May need to allocate memory for the image data
+      let heapSpace = Module._malloc(imageData * imageData.array);
+      // May have to pass the image data as a pointer to the WASM module
+      Module.HEAPU8.set(imageData, heapSpace);
       Module._createImageSet(imageData, imageWidth, imageHeight); // Update the order of parameters if needed
     });
     // Generate the image descriptors
