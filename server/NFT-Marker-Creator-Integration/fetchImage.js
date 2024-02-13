@@ -53,7 +53,7 @@ if (typeof Module !== "undefined") {
 
 async function processImage() {
   const imageURL =
-    "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/alpha%20wolf%202145_0ccf0772-2855-4c3a-9606-3085d6ea6d6e.jpg";
+    "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/IMG_1552_66d57548-6abb-4c6d-98a5-3f034a40a974.jpeg";
 
   try {
     const imageBuffer = await generateImageArrayBuffer(imageURL);
@@ -77,25 +77,28 @@ async function generateImageDescriptors(decodedData, options = {}) {
     const storageBucket =
       "https://hxsxzqopqnktoldqenle.supabase.co/storage/v1/object/public/images/test/";
 
-    // Options for generating image descriptors
-    const {
-      imageWidth = decodedData.width,
-      imageHeight = decodedData.height,
-      imageData = decodedData.data,
-      noConf = false,
-      withDemo = false,
-      isZFT = false,
-      onlyConfidence = false,
-      outputDestination = storageBucket,
-    } = options;
-
+    const imageData = {
+      sizeX: decodedData.width,
+      sizeY: decodedData.height,
+      nc: decodedData.channels,
+      dpi: decodedData.dpi,
+      array: decodedData.data,
+    };
+    console.log("🟢 Image data: ", imageData);
     await new Promise((resolve) => {
       Module.onRuntimeInitialized = resolve;
       // May need to allocate memory for the image data
-      let heapSpace = Module._malloc(imageData * imageData.array);
+      let heapSpace = Module._malloc(
+        imageData.array.length * imageData.array.BYTE_PER_ELEMENT
+      );
       // May have to pass the image data as a pointer to the WASM module
-      Module.HEAPU8.set(imageData, heapSpace);
-      Module._createImageSet(imageData, imageWidth, imageHeight); // Update the order of parameters if needed
+      Module.HEAPU8.set(imageData.array, heapSpace);
+      Module._createImageSet(
+        heapSpace,
+        imageData.dpi,
+        imageData.sizeX,
+        imageData.sizeY
+      ); // Update the order of parameters if needed
     });
     // Generate the image descriptors
   } catch (error) {
