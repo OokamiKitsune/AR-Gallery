@@ -80,8 +80,8 @@ async function generateImageDescriptors(decodedData, options = {}) {
     const imageData = {
       sizeX: decodedData.width,
       sizeY: decodedData.height,
-      nc: decodedData.channels,
-      dpi: decodedData.dpi,
+      nc: decodedData.channels || 3,
+      dpi: decodedData.dpi || 72,
       array: decodedData.data,
     };
     console.log("🟢 Image data: ", imageData);
@@ -93,12 +93,17 @@ async function generateImageDescriptors(decodedData, options = {}) {
       );
       // May have to pass the image data as a pointer to the WASM module
       Module.HEAPU8.set(imageData.array, heapSpace);
+      console.log("🟢 Image data pointer: ", heapSpace);
       Module._createImageSet(
         heapSpace,
         imageData.dpi,
         imageData.sizeX,
-        imageData.sizeY
-      ); // Update the order of parameters if needed
+        imageData.sizeY,
+        imageData.nc
+      );
+      // Free the memory allocated for the image data
+      console.log("🟢 Freeing memory allocated for image data...");
+      Module._free(heapSpace);
     });
     // Generate the image descriptors
   } catch (error) {
