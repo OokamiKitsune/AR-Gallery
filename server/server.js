@@ -40,7 +40,7 @@ app.use(cors(corsOptions));
 
 // Middleware logging
 app.use((req, res, next) => {
-  console.log(`⚪️ ${req.method} call recieved: ${req.url}`);
+  console.log(`⚪️ ${req.method} call received: ${req.url}`);
   next();
 });
 
@@ -212,7 +212,7 @@ app.get("/api/get-ar-image/:id", async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
-// Generate image descriptors
+// Generate image descriptors by calling the Marker Creator API
 app.post("/api/generate-ar-descriptors", authenticate, async (req, res) => {
   try {
     // Extract image URLs or identifiers from the request body sent by the frontend

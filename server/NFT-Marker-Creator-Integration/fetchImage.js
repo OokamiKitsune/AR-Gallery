@@ -87,11 +87,11 @@ async function generateImageDescriptors(decodedData, options = {}) {
     console.log("🟢 Image data: ", imageData);
     await new Promise((resolve) => {
       Module.onRuntimeInitialized = resolve;
-      // May need to allocate memory for the image data
+      // Allocate memory for the image data
       let heapSpace = Module._malloc(
         imageData.array.length * imageData.array.BYTE_PER_ELEMENT
       );
-      // May have to pass the image data as a pointer to the WASM module
+      // Pass the image data as a pointer to the WASM module
       Module.HEAPU8.set(imageData.array, heapSpace);
       console.log("🟢 Image data pointer: ", heapSpace);
       Module._createImageSet(
@@ -101,9 +101,37 @@ async function generateImageDescriptors(decodedData, options = {}) {
         imageData.sizeY,
         imageData.nc
       );
+
+      // FOR TESTING: Save the image descriptors to a file
+      try {
+        const fileName = "image-descriptors"; // Name should correspond to the image name
+        const fsetFile = `${fileName}.fset`;
+        const fset3File = `${fileName}.fset3`;
+        const isetFile = `${fileName}.iset`;
+
+        // Read the image descriptors from the WASM module
+        let fsetContent = Module.FS.readFile(fsetFile);
+        let fset3Content = Module.FS.readFile(fset3File);
+        let isetContent = Module.FS.readFile(isetFile);
+
+        // Save the image descriptors to directory
+        fs.writeFileSync(fsetFile, fsetContent);
+        fs.writeFileSync(fset3File, fset3Content);
+        fs.writeFileSync(isetFile, isetContent);
+      } catch (error) {
+        console.error(error);
+      }
+
       // Free the memory allocated for the image data
-      console.log("🟢 Freeing memory allocated for image data...");
-      Module._free(heapSpace);
+      try {
+        console.log("🟢 Freeing memory allocated for image data...");
+        Module._free(heapSpace);
+      } catch (error) {
+        console.error(
+          "🔴 Error freeing memory allocated for image data: ",
+          error
+        );
+      }
     });
     // Generate the image descriptors
   } catch (error) {
