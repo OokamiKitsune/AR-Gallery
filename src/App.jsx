@@ -7,11 +7,13 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import NotFound from "./404";
 import NabBar from "./components/NavBar/index";
+import { SendSOLToRandomAddress } from "./components/Solana/solTest";
 
 function App() {
   return (
     <>
       <NabBar />
+      <SendSOLToRandomAddress />
       <Routes>
         <Route path="/" element={<Gallery />} />
         <Route path="/admin" element={<AdminPanel />} />
