@@ -8,12 +8,15 @@ import Login from "./components/Login";
 import NotFound from "./404";
 import NabBar from "./components/NavBar/index";
 import { SendSOLToRandomAddress } from "./components/Solana/solTest";
+import { WalletProvider } from "@solana/wallet-adapter-react";
+import { UnsafeBurnerWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { clusterApiUrl } from "@solana/web3.js";
 
 function App() {
   return (
     <>
       <NabBar />
-      <SendSOLToRandomAddress />
+
       <Routes>
         <Route path="/" element={<Gallery />} />
         <Route path="/admin" element={<AdminPanel />} />
