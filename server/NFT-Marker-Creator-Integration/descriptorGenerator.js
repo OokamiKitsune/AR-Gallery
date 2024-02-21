@@ -87,13 +87,13 @@ async function generateImageDescriptors(decodedData, options = {}) {
     console.log("🟢 Image data: ", imageData);
     await new Promise((resolve) => {
       Module.onRuntimeInitialized = resolve;
-      // Allocate memory for the image data
+      // Allocate memory for the image data by multiplying the length of the array by the number of bytes per element
       let heapSpace = Module._malloc(
         imageData.array.length * imageData.array.BYTE_PER_ELEMENT
       );
       // Pass the image data as a pointer to the WASM module
       Module.HEAPU8.set(imageData.array, heapSpace);
-      console.log("🟢 Image data pointer: ", heapSpace);
+      console.log("🟢 Image data pointer size: ", heapSpace);
       Module._createImageSet(
         heapSpace,
         imageData.dpi,
@@ -103,29 +103,37 @@ async function generateImageDescriptors(decodedData, options = {}) {
       );
 
       // FOR TESTING: Save the image descriptors to a file
+
+      // Save the image descriptors to directory
+      const outputPath = "./output/"; // Adjust the output path as needed
+      const fileName = "image-descriptors"; // Name should correspond to the image name
+      const ext = ".iset";
+      const ext2 = ".fset";
+      const ext3 = ".fset3";
+
+      // Read the image descriptors from the WASM module
+      let content, contentFset, contentFset3;
       try {
-        const fileName = "image-descriptors"; // Name should correspond to the image name
-        const fsetFile = `${fileName}.fset`;
-        const fset3File = `${fileName}.fset3`;
-        const isetFile = `${fileName}.iset`;
-
-        // Read the image descriptors from the WASM module
-        let fsetContent = Module.FS.readFile(fsetFile);
-        let fset3Content = Module.FS.readFile(fset3File);
-        let isetContent = Module.FS.readFile(isetFile);
-
-        // Save the image descriptors to directory
-        fs.writeFileSync(fsetFile, fsetContent);
-        fs.writeFileSync(fset3File, fset3Content);
-        fs.writeFileSync(isetFile, isetContent);
+        content = Module.FS.readFile(content);
+        contentFset = Module.FS.readFile(contentFset);
+        contentFset3 = Module.FS.readFile(contentFset3);
       } catch (error) {
-        console.error(error);
+        console.error("🔴 Error reading image descriptors: ", error);
+      }
+
+      try {
+        fs.writeFileSync(path.join(outputPath, fileName + ext), content);
+        fs.writeFileSync(path.join(outputPath, fileName + ext2), contentFset);
+        fs.writeFileSync(path.join(outputPath, fileName + ext3), contentFset3);
+        console.log("🟢 Image descriptors saved successfully");
+      } catch (error) {
+        console.error("🔴 Error saving image descriptors: ", error);
       }
 
       // Free the memory allocated for the image data
       try {
-        console.log("🟢 Freeing memory allocated for image data...");
         Module._free(heapSpace);
+        console.log("🟢 Memory freed");
       } catch (error) {
         console.error(
           "🔴 Error freeing memory allocated for image data: ",
