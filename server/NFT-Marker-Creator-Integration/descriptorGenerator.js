@@ -1,6 +1,5 @@
 const path = require("path");
 const fs = require("fs");
-const glob = require("glob");
 const readlineSync = require("readline-sync");
 const inkjet = require("inkjet");
 const im = require("imagemagick");
@@ -70,7 +69,7 @@ async function processImage() {
 }
 
 // Begin the process of generating image descriptors
-async function generateImageDescriptors(decodedData, options = {}) {
+async function generateImageDescriptors(decodedData = {}) {
   try {
     console.log("🚀 Generating image descriptors...\n");
     console.log("🟢 Decoded data: ", decodedData);
@@ -107,24 +106,37 @@ async function generateImageDescriptors(decodedData, options = {}) {
       // Save the image descriptors to directory
       const outputPath = "./output/"; // Adjust the output path as needed
       const fileName = "image-descriptors"; // Name should correspond to the image name
-      const ext = ".iset";
-      const ext2 = ".fset";
-      const ext3 = ".fset3";
+      const extIset = ".iset";
+      const extFset = ".fset";
+      const extFset3 = ".fset3";
 
-      // Read the image descriptors from the WASM module
-      let content, contentFset, contentFset3;
+      // Read the image descriptors from the WASM module and store them in the variables
+      let filenameIset, filenameFset, filenameFset3;
       try {
-        content = Module.FS.readFile(content);
-        contentFset = Module.FS.readFile(contentFset);
-        contentFset3 = Module.FS.readFile(contentFset3);
+        filenameIset = Module.FS.readFile("tempFilename.iset");
+        filenameFset = Module.FS.readFile("tempFilename.fset");
+        filenameFset3 = Module.FS.readFile("tempFilename.fset3");
       } catch (error) {
         console.error("🔴 Error reading image descriptors: ", error);
       }
 
       try {
-        fs.writeFileSync(path.join(outputPath, fileName + ext), content);
-        fs.writeFileSync(path.join(outputPath, fileName + ext2), contentFset);
-        fs.writeFileSync(path.join(outputPath, fileName + ext3), contentFset3);
+        // Wait for each file to be read before proceeding
+        Promise.all([filenameIset, filenameFset, filenameFset3]);
+
+        // Save the image descriptors to directory
+        fs.writeFileSync(
+          path.join(outputPath, fileName + extIset),
+          filenameIset
+        );
+        fs.writeFileSync(
+          path.join(outputPath, fileName + extFset),
+          filenameFset
+        );
+        fs.writeFileSync(
+          path.join(outputPath, fileName + extFset3),
+          filenameFset3
+        );
         console.log("🟢 Image descriptors saved successfully");
       } catch (error) {
         console.error("🔴 Error saving image descriptors: ", error);
