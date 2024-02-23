@@ -7,17 +7,19 @@ import Tus from "@uppy/tus";
 import { v4 as uuidv4 } from "uuid";
 
 // To-do: Call the backend API to get the secret API key
-const SECRET_API_KEY = "";
-const SUPABASE_PROJECT_ID = "";
-const STORAGE_BUCKET = "";
+const SUPABASE_PROJECT_ID = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+const SECRET_API_KEY = import.meta.env.VITE_SECRET_API_KEY;
+const STORAGE_BUCKET = import.meta.env.VITE_STORAGE_BUCKET;
 
+// Upload images make use of the tus protocol using uppy.
+// Uploads go directly to the storage bucket on Supabase and target folder specified.
 const Upload = () => {
   useEffect(() => {
-    const folder = "test";
+    const targetFolder = "test";
     const supabaseStorageURL = `https://${SUPABASE_PROJECT_ID}.supabase.co/storage/v1/upload/resumable`;
 
     const uppy = new Uppy({
-      meta: { folder },
+      meta: { folder: targetFolder },
       restrictions: { maxNumberOfFiles: 10 },
       autoProceed: true,
     })
@@ -45,7 +47,7 @@ const Upload = () => {
         },
       });
 
-    // Generate a unique name for the file
+    // Construct a unique name for the file to avoid conflicts
     const generateUniqueName = (file) => {
       const uniqueID = uuidv4();
       const fileExtension = file.name.split(".").pop();
@@ -58,11 +60,11 @@ const Upload = () => {
     uppy.on("file-added", (file) => {
       // Invoke the generateUniqueName function to generate a unique name for the file
       const uniqueFileName = generateUniqueName(file);
-      console.log("file added", file);
-
       const supabaseMetadata = {
         bucketName: STORAGE_BUCKET,
-        objectName: folder ? `${folder}/${uniqueFileName}` : uniqueFileName,
+        objectName: targetFolder
+          ? `${targetFolder}/${uniqueFileName}`
+          : uniqueFileName,
         contentType: file.type,
       };
 
