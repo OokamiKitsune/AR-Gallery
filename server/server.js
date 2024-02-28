@@ -69,6 +69,14 @@ app.get("/api/auth", authenticate, async (req, res) => {
   });
 });
 
+// Get settings endpoint
+app.get("/api/settings", authenticate, async (req, res) => {
+  // get site name and logo from the database
+  const siteName = "AR Gallery";
+  const siteLogo = "https://example.com/logo.png";
+  res.json({ siteName, siteLogo });
+});
+
 // Create user endpoint
 app.post("/api/signup", authenticate, async (req, res) => {
   try {
