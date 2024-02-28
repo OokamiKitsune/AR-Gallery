@@ -4,9 +4,29 @@ import { useState, useEffect } from "react";
 
 import { Navbar, Nav, Button } from "react-bootstrap";
 
-const NavBar = () => {
+const NavBar = ({ isAdmin, isLoggedIn }) => {
   const [siteName, setSiteName] = useState("AR Gallery");
-  const [siteLogo, setSiteLogo] = useState(imnotartlogo);
+  const [siteLogo, setSiteLogo] = useState(imnotartlogo || "DefaultLogo");
+
+  const fetchSiteData = async () => {
+    // Fetch site name and logo from backend API
+    // const response = await fetch("https://api.example.com/settings");
+    // const data = await response.json();
+    // setSiteName(data.siteName);
+    // setSiteLogo(data.siteLogo);
+    setSiteName("AR Gallery");
+    setSiteLogo(imnotartlogo);
+  };
+
+  const handleAdminClick = () => {
+    // Redirect to the AdminPanel component
+    history.push("/admin");
+  };
+
+  const handleLoginClick = () => {
+    // Redirect to the Login component
+    history.push("/login");
+  };
 
   // Get site name and logo from backend API
 
@@ -28,10 +48,32 @@ const NavBar = () => {
           <Nav.Link href="/">Home</Nav.Link>
         </Nav>
         <Nav>
-          <Button variant="outline-primary" className="mr-2">
-            Login
-          </Button>
-          <Button variant="primary">Upload</Button>
+          {/* Conditionally render the admin-only button */}
+          {isAdmin && (
+            <Button
+              variant="outline-danger"
+              className="mr-2"
+              onClick={handleAdminClick}
+            >
+              Admin Panel
+            </Button>
+          )}
+        </Nav>
+        <Nav>
+          {/* Conditionally render login options */}
+          {isLoggedIn ? (
+            <Button variant="outline-primary" className="mr-2">
+              Logout
+            </Button>
+          ) : (
+            <Button
+              variant="outline-primary"
+              className="mr-2"
+              onClick={handleLoginClick}
+            >
+              Login
+            </Button>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
