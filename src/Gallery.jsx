@@ -15,14 +15,13 @@ import { useNavigate } from "react-router-dom"; // Import useHistory
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
-  const [siteName, setSiteName] = useState("AR Gallery");
   const navigate = useNavigate(); // Create history object
 
   useEffect(() => {
     console.log("inside useEffect");
     const getImages = async () => {
       try {
-        const response = await fetch("http://192.168.50.243:5000/api/images"); // Fetch images from backend API
+        const response = await fetch("http://localhost:5000/api/images"); // Fetch images from backend API
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -42,7 +41,7 @@ const Gallery = () => {
         <img src={imnotartlogo} className="logo" alt="imnotArtLogo" />
       </div>
       <h2>Augmented Reality Gallery</h2>
-      <p>Enhanced experiance in art viewing.</p>
+      <p>Enhanced experience in art viewing.</p>
       <div className="gallery">
         {images.map((piece) => (
           <div key={piece.id} className="thumbnail-card">

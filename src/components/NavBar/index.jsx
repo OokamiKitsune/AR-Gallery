@@ -1,10 +1,13 @@
 // import "bootstrap/dist/css/bootstrap.min.css";
 import imnotartlogo from "../../assets/imnotartlogo.png";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useHistory
 
 import { Navbar, Nav, Button } from "react-bootstrap";
 
 const NavBar = ({ isAdmin, isLoggedIn }) => {
+  const navigate = useNavigate(); // Create history object
+
   const [siteName, setSiteName] = useState("AR Gallery");
   const [siteLogo, setSiteLogo] = useState(imnotartlogo || "DefaultLogo");
 
@@ -20,12 +23,12 @@ const NavBar = ({ isAdmin, isLoggedIn }) => {
 
   const handleAdminClick = () => {
     // Redirect to the AdminPanel component
-    history.push("/admin");
+    navigate("/admin");
   };
 
   const handleLoginClick = () => {
     // Redirect to the Login component
-    history.push("/login");
+    navigate("/login");
   };
 
   // Get site name and logo from backend API
@@ -45,7 +48,9 @@ const NavBar = ({ isAdmin, isLoggedIn }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/" onClick={() => navigate("/")}>
+            Home
+          </Nav.Link>
         </Nav>
         <Nav>
           {/* Conditionally render the admin-only button */}
