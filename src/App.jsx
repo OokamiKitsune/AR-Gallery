@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 function App() {
   // Check user authentication status
   const [userData, setUserData] = useState(null);
+  const [siteData, setSiteData] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -24,6 +25,19 @@ function App() {
       }
     };
     fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const fetchSiteData = async () => {
+      try {
+        const response = await fetch("http://192.168.50.243:5000/api/settings");
+        const data = await response.json();
+        setSiteData(data);
+      } catch (error) {
+        console.error("🔴 Error fetching site data: ", error);
+      }
+    };
+    fetchSiteData();
   }, []);
 
   return (

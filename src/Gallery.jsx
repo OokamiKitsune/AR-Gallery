@@ -1,9 +1,10 @@
 import imnotartlogo from "./assets/imnotartlogo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import "./App.css";
 import { useNavigate } from "react-router-dom"; // Import useHistory
+import { connect } from "react-redux";
 
 // To-do: Call backend API to get the images from the database
 
@@ -12,6 +13,12 @@ import { useNavigate } from "react-router-dom"; // Import useHistory
 // const SUPABASE_KEY = process.env.REACT_APP_SECRET_API_KEY;
 
 // Gallery loads all images from storage bucket and displays them.
+
+const site = {
+  name: "AR Gallery",
+  logo: imnotartlogo,
+  description: "A collection of AR-enabled art pieces",
+};
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -38,10 +45,11 @@ const Gallery = () => {
   return (
     <>
       <div>
-        <img src={imnotartlogo} className="logo" alt="imnotArtLogo" />
+        <img src={site.logo} className="logo" alt={site.name} />
       </div>
-      <h2>Augmented Reality Gallery</h2>
-      <p>Enhanced experience in art viewing.</p>
+      <h2>{site.name}</h2>
+      {/* Add a description of the gallery */}
+      <p>{site.description}</p>
       <div className="gallery">
         {images.map((piece) => (
           <div key={piece.id} className="thumbnail-card">
@@ -50,6 +58,7 @@ const Gallery = () => {
               <a href={piece.website} target="_blank" rel="noopener noreferrer">
                 {/* Replace the following image tag with your social media icons */}
                 <FontAwesomeIcon icon={faTwitter} />
+                <FontAwesomeIcon icon={faFacebook} />
               </a>
               {/* Add more social media icons as needed */}
             </div>
