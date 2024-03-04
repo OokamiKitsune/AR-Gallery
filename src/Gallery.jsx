@@ -4,15 +4,13 @@ import { faFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { useState, useEffect } from "react";
 import "./App.css";
 import { useNavigate } from "react-router-dom"; // Import useHistory
-import { connect } from "react-redux";
-
-// To-do: Call backend API to get the images from the database
+import { connect } from "react-redux"; // Import connect from react-redux
+import { setImages } from "./reduxReducers/actions/imageActions"; // Import the action creator
+import PropTypes from "prop-types"; // Import PropTypes
 
 // const SUPABASE_URL = process.env.REACT_APP_DATABASE_URL;
 
 // const SUPABASE_KEY = process.env.REACT_APP_SECRET_API_KEY;
-
-// Gallery loads all images from storage bucket and displays them.
 
 const site = {
   name: "AR Gallery",
@@ -20,8 +18,8 @@ const site = {
   description: "A collection of AR-enabled art pieces",
 };
 
-const Gallery = () => {
-  const [images, setImages] = useState([]);
+const Gallery = ({ images, setImages }) => {
+  // const [images, setImages] = useState([]);
   const navigate = useNavigate(); // Create history object
 
   useEffect(() => {
@@ -40,7 +38,12 @@ const Gallery = () => {
       }
     };
     getImages();
-  }, []);
+  }, [setImages]);
+  // Define PropTypes for the component
+  Gallery.propTypes = {
+    images: PropTypes.array.isRequired, // images should be an array and is required
+    setImages: PropTypes.func.isRequired, // setImages should be a function and is required
+  };
 
   return (
     <>
@@ -83,4 +86,13 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+const mapStateToProps = (state) => ({
+  images: state.images.images,
+});
+
+const mapDispatchToProps = {
+  setImages,
+};
+
+const GalleryConnected = connect(mapStateToProps, mapDispatchToProps)(Gallery);
+export default GalleryConnected;

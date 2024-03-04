@@ -7,6 +7,8 @@ import Signup from "./components/Signup";
 import Login from "./components/Login";
 import NotFound from "./404";
 import NavBar from "./components/NavBar/index";
+import { Provider } from "react-redux";
+import store from "./reduxReducers/store/store";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -42,15 +44,17 @@ function App() {
 
   return (
     <>
-      <NavBar data={userData} />
-      <Routes>
-        <Route path="/" element={<Gallery />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/ar-view" element={<ARView />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Provider store={store}>
+        <NavBar data={userData} />
+        <Routes>
+          <Route path="/" element={<Gallery />} />
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/ar-view" element={<ARView />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Provider>
     </>
   );
 }
