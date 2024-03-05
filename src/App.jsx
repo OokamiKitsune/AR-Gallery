@@ -13,15 +13,15 @@ import { useEffect, useState } from "react";
 
 function App() {
   // Check user authentication status
-  const [userData, setUserData] = useState(null);
-  const [siteData, setSiteData] = useState(null);
+  const [userData, setUserData] = useState([]);
+  const [siteData, setSiteData] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await fetch("http://192.168.50.243:5000/api/userdata");
-        const data = await response.json();
-        setUserData(data);
+        const userData = await response.json();
+        setUserData(userData);
       } catch (error) {
         console.error("🔴 Error fetching user data: ", error);
       }
@@ -45,6 +45,8 @@ function App() {
   return (
     <>
       <Provider store={store}>
+        {" "}
+        {/* Wrap the app with the Provider component */}
         <NavBar data={userData} />
         <Routes>
           <Route path="/" element={<Gallery />} />

@@ -2,14 +2,17 @@
 import imnotartlogo from "../../assets/imnotartlogo.png";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useHistory
-
 import { Navbar, Nav, Button } from "react-bootstrap";
+import PropTypes from "prop-types"; // Import PropTypes
 
 const NavBar = ({ isAdmin, isLoggedIn }) => {
   const navigate = useNavigate(); // Create history object
-
   const [siteName, setSiteName] = useState("AR Gallery");
   const [siteLogo, setSiteLogo] = useState(imnotartlogo || "DefaultLogo");
+  NavBar.prototype = {
+    isAdmin: PropTypes.bool.isRequired, // isAdmin should be a boolean and is required
+    isLoggedIn: PropTypes.bool.isRequired, // isLoggedIn should be a boolean and is required
+  };
 
   const fetchSiteData = async () => {
     // Fetch site name and logo from backend API
@@ -31,6 +34,11 @@ const NavBar = ({ isAdmin, isLoggedIn }) => {
     navigate("/login");
   };
 
+  const handleHomeClick = () => {
+    // Redirect to the Home component
+    navigate("/");
+  };
+
   // Get site name and logo from backend API
 
   return (
@@ -48,9 +56,13 @@ const NavBar = ({ isAdmin, isLoggedIn }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/" onClick={() => navigate("/")}>
+          <Button
+            variant="outline-primary"
+            className="mr-2"
+            onClick={handleHomeClick}
+          >
             Home
-          </Nav.Link>
+          </Button>
         </Nav>
         <Nav>
           {/* Conditionally render the admin-only button */}
