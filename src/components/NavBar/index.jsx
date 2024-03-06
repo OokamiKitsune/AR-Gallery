@@ -21,7 +21,7 @@ const NavBar = ({ isAdmin, isLoggedIn }) => {
     // const data = await response.json();
     // setSiteName(data.siteName);
     // setSiteLogo(data.siteLogo);
-    setSiteName("AR Gallery");
+    setSiteName("NativeVerse");
     setSiteLogo(imnotartlogo);
   };
 

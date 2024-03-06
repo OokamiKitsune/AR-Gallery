@@ -13,7 +13,7 @@ import PropTypes from "prop-types"; // Import PropTypes
 // const SUPABASE_KEY = process.env.REACT_APP_SECRET_API_KEY;
 
 const site = {
-  name: "AR Gallery",
+  name: "NativeVerse",
   logo: imnotartlogo,
   description: "A collection of AR-enabled art pieces",
 };
