@@ -1,6 +1,7 @@
 // import "bootstrap/dist/css/bootstrap.min.css";
 import imnotartlogo from "../../assets/imnotartlogo.png";
 import { useState, useEffect } from "react";
+import Logout from "../Logout";
 import { useNavigate } from "react-router-dom"; // Import useHistory
 import { Navbar, Nav, Button } from "react-bootstrap";
 import PropTypes from "prop-types"; // Import PropTypes
@@ -78,10 +79,8 @@ const NavBar = ({ isAdmin, isLoggedIn }) => {
         </Nav>
         <Nav>
           {/* Conditionally render login options */}
-          {isLoggedIn ? (
-            <Button variant="outline-primary" className="mr-2">
-              Logout
-            </Button>
+          {!isLoggedIn ? (
+            <Logout />
           ) : (
             <Button
               variant="outline-primary"
